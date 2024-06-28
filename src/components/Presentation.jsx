@@ -1,8 +1,10 @@
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon, Search2Icon, Icon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, HStack, Heading, Image, ListIcon, ListItem, List, OrderedList, Text, UnorderedList, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FcApprove, FcLike, FcButtingIn, FcCellPhone, FcNegativeDynamic, FcSalesPerformance, FcScatterPlot, FcPositiveDynamic, FcApproval, FcElectricalSensor, FcBusinessman, FcComboChart, FcBarChart, FcElectricity, FcElectricalThreshold, FcBullish } from "react-icons/fc";
 import Chart from './Chart';
+import ReactGA from 'react-ga';
+import CookieConsent from "react-cookie-consent";
 
 const GustoPulseLogo = () => (
   <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -280,9 +282,50 @@ const slides = [
 
 function Presentation() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [hasConsent, setHasConsent] = useState(false);
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  useEffect(() => {
+    const consent = localStorage.getItem('gustopulse_cookie_consent');
+    if (consent === 'true') {
+      setHasConsent(true);
+      initializeGA();
+    }
+  }, []);
+
+  const initializeGA = () => {
+    ReactGA.initialize('UA-000000-01'); // Replace with your Google Analytics tracking ID
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  };
+
+  const handleConsent = () => {
+    setHasConsent(true);
+    localStorage.setItem('gustopulse_cookie_consent', 'true');
+    initializeGA();
+  };
+
+  const nextSlide = () => {
+    const newSlide = (currentSlide + 1) % slides.length;
+    setCurrentSlide(newSlide);
+    if (hasConsent) {
+      ReactGA.event({
+        category: 'Presentation',
+        action: 'Next Slide',
+        label: `Slide ${newSlide + 1}`
+      });
+    }
+  };
+
+  const prevSlide = () => {
+    const newSlide = (currentSlide - 1 + slides.length) % slides.length;
+    setCurrentSlide(newSlide);
+    if (hasConsent) {
+      ReactGA.event({
+        category: 'Presentation',
+        action: 'Previous Slide',
+        label: `Slide ${newSlide + 1}`
+      });
+    }
+  };
 
   return (
     <Box height="100vh" width="100vw" overflow="hidden" position="relative">
@@ -297,10 +340,25 @@ function Presentation() {
         justify="space-between" 
         px={4}
       >
-        <Button leftIcon={<ChevronLeftIcon />} onClick={prevSlide}>Previous</Button>
+        <Button onClick={prevSlide}>← Previous</Button>
         <Text>Slide {currentSlide + 1} of {slides.length}</Text>
-        <Button rightIcon={<ChevronRightIcon />} onClick={nextSlide}>Next</Button>
+        <Button onClick={nextSlide}>Next →</Button>
       </Flex>
+      <CookieConsent
+        location="bottom"
+        buttonText="Accept"
+        cookieName="gustopulse_cookie_consent"
+        style={{ background: "#2B373B" }}
+        buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+        expires={150}
+        onAccept={handleConsent}
+      >
+        This website uses cookies to enhance the user experience. By continuing to use this site, you agree to our use of cookies.{" "}
+        <span style={{ fontSize: "10px" }}>
+          This site complies with GDPR standards. 
+          <a href="/privacy-policy" style={{ color: "white" }}> Learn more</a>
+        </span>
+      </CookieConsent>
     </Box>
   );
 }
