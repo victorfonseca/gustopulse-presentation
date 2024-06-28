@@ -1,5 +1,4 @@
 {
-  "homepage": "https://victorfonseca.github.io/gustopulse-presentation",
   "name": "gustopulse-presentation",
   "private": true,
   "version": "0.0.0",
@@ -7,8 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy" : "gh-pages -d build",
-    "predeploy" : "npm run build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -31,7 +28,6 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
-    "gh-pages": "^6.1.1",
     "vite": "^5.3.1"
   }
 }
