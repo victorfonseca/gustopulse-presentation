@@ -1,7 +1,7 @@
-import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon, Search2Icon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon, Search2Icon, Icon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, HStack, Heading, Image, ListIcon, ListItem, List, OrderedList, Text, UnorderedList, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { FcApprove, FcButtingIn, FcCellPhone, FcNegativeDynamic, FcSalesPerformance, FcScatterPlot, FcPositiveDynamic, FcApproval, FcElectricalSensor, FcBusinessman, FcComboChart, FcBarChart, FcElectricity, FcElectricalThreshold, FcBullish } from "react-icons/fc";
+import { FcApprove, FcLike, FcButtingIn, FcCellPhone, FcNegativeDynamic, FcSalesPerformance, FcScatterPlot, FcPositiveDynamic, FcApproval, FcElectricalSensor, FcBusinessman, FcComboChart, FcBarChart, FcElectricity, FcElectricalThreshold, FcBullish } from "react-icons/fc";
 import Chart from './Chart';
 
 const GustoPulseLogo = () => (
@@ -67,6 +67,12 @@ const slides = [
             Provide actionable insights for beverage brands
           </ListItem>
         </List>
+      </Box>
+      <Icon as={FcLike}></Icon>
+      <Box>
+        <Flex justifyContent="center" mb={6} textAlign={'center'}>
+          <b>Imagine having your finger on the pulse of what European consumers really want. With GustoPulse, you'll know which flavors are trending, which packaging designs are catching eyes, and which marketing strategies are winning hearts.</b>
+        </Flex>
       </Box>
       </VStack>
     )
