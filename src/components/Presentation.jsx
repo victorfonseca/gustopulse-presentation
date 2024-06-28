@@ -293,7 +293,7 @@ function Presentation() {
   }, []);
 
   const initializeGA = () => {
-    ReactGA.initialize('UA-000000-01'); // Replace with your Google Analytics tracking ID
+    ReactGA.initialize('G-W9RG60RH20'); // Replace with your Google Analytics tracking ID
     ReactGA.pageview(window.location.pathname + window.location.search);
   };
 
